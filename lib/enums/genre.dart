@@ -1,0 +1,4 @@
+enum GenreCharacter{
+  male,
+  female
+}
