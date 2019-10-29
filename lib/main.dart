@@ -7,7 +7,8 @@ void main() {
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
         brightness: Brightness.dark,
-        unselectedWidgetColor:Colors.amberAccent
+        //unselectedWidgetColor:Colors.amberAccent
+      toggleableActiveColor: Colors.white
     ),
   ));
 }

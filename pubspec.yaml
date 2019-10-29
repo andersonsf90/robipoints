@@ -76,3 +76,5 @@ flutter_icons:
   android: true
   ios: true
   image_path: "icons/logo_robi.png"
+  adaptive_icon_foreground: "icons/lines.png"
+  adaptive_icon_background: "icons/black.png"

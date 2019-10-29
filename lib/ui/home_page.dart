@@ -13,17 +13,47 @@ class _HomePageState extends State<HomePage> {
   GenreCharacter _genreCharacter = GenreCharacter.male;
 
   List<DropdownMenuItem<int>> listDrop = [
-    (DropdownMenuItem( child: Text("55 kg"), value: 1, )),
-    (DropdownMenuItem( child: Text("61 kg"), value: 2, )),
-    (DropdownMenuItem( child: Text("67 kg"), value: 3, )),
-    (DropdownMenuItem( child: Text("73 kg"), value: 4, )),
-    (DropdownMenuItem( child: Text("81 kg"), value: 5, )),
-    (DropdownMenuItem( child: Text("89 kg"), value: 6, )),
-    (DropdownMenuItem( child: Text("96 kg"), value: 7, )),
-    (DropdownMenuItem( child: Text("102 kg"), value: 8, )),
-    (DropdownMenuItem( child: Text("109 kg"), value: 9, )),
-    (DropdownMenuItem( child: Text("109+ kg"), value: 10, ))
-  ] ;
+    (DropdownMenuItem(
+      child: Text("55 kg"),
+      value: 1,
+    )),
+    (DropdownMenuItem(
+      child: Text("61 kg"),
+      value: 2,
+    )),
+    (DropdownMenuItem(
+      child: Text("67 kg"),
+      value: 3,
+    )),
+    (DropdownMenuItem(
+      child: Text("73 kg"),
+      value: 4,
+    )),
+    (DropdownMenuItem(
+      child: Text("81 kg"),
+      value: 5,
+    )),
+    (DropdownMenuItem(
+      child: Text("89 kg"),
+      value: 6,
+    )),
+    (DropdownMenuItem(
+      child: Text("96 kg"),
+      value: 7,
+    )),
+    (DropdownMenuItem(
+      child: Text("102 kg"),
+      value: 8,
+    )),
+    (DropdownMenuItem(
+      child: Text("109 kg"),
+      value: 9,
+    )),
+    (DropdownMenuItem(
+      child: Text("109+ kg"),
+      value: 10,
+    ))
+  ];
 
   int weightCategorySelected = null;
 
@@ -49,7 +79,7 @@ class _HomePageState extends State<HomePage> {
     print("$weight --- $CategorySelected --- $genre");
 
     double totalPoints = robiPoints.calculate(genre, CategorySelected, weight);
-    _infoText = ("You've made $totalPoints");
+    _infoText = ("You made $totalPoints points.");
     setState(() {});
   }
 
@@ -145,7 +175,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Robi Points Calculator"),
+          title: Text(
+            "Robi Points",
+            style: TextStyle(fontSize: 32.0),
+          ),
           backgroundColor: Colors.amber,
           centerTitle: true,
           actions: <Widget>[
@@ -158,7 +191,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+          padding: EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 0.0),
           child: Container(
             child: Center(
                 child: Column(
@@ -169,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.amber,
-                    fontSize: 24.0,
+                    fontSize: 28.0,
                   ),
                 ),
                 Row(
@@ -178,7 +211,7 @@ class _HomePageState extends State<HomePage> {
                       Radio(
                         value: GenreCharacter.male,
                         groupValue: _genreCharacter,
-                        activeColor: Colors.amber,
+                        //activeColor: Colors.white,
                         onChanged: (GenreCharacter value) {
                           loadDataListMen();
                           setState(() {
@@ -188,12 +221,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Text(
                         "Male",
-                        style: TextStyle(color: Colors.amber, fontSize: 24.0),
+                        style: TextStyle( fontSize: 24.0),
                       ),
                       Radio(
                         value: GenreCharacter.female,
                         groupValue: _genreCharacter,
-                        activeColor: Colors.amber,
+                        //activeColor: Colors.white,
                         onChanged: (GenreCharacter value) {
                           //_resetFields();
                           loadDataListWomen();
@@ -204,7 +237,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Text(
                         "Female",
-                        style: TextStyle(color: Colors.amber, fontSize: 24.0),
+                        style: TextStyle(fontSize: 24.0),
                       ),
                     ]),
                 Text(
@@ -212,14 +245,16 @@ class _HomePageState extends State<HomePage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.amber,
-                    fontSize: 24.0,
+                    fontSize: 28.0,
                   ),
                 ),
-                DropdownButton(
+                 DropdownButton(
                   value: weightCategorySelected,
-                  style: TextStyle(color: Colors.amber, fontSize: 24.0),
+                  isExpanded: true,
+                  iconSize: 40.0,
+                  style: TextStyle(fontSize: 24.0),
                   items: listDrop,
-                  hint: Text("Weight Category"),
+                  hint: Text("Select Category"),
                   onChanged: (value) {
                     weightCategorySelected = value;
                     setState(() {});
@@ -231,7 +266,7 @@ class _HomePageState extends State<HomePage> {
                       labelText: "Peso (Kg)",
                       labelStyle: TextStyle(color: Colors.amber)),
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.amber, fontSize: 24.0),
+                  style: TextStyle(fontSize: 24.0),
                   controller: weightController,
                 ),
                 RaisedButton(
@@ -259,6 +294,5 @@ class _HomePageState extends State<HomePage> {
             )),
           ),
         ));
-
   }
 }

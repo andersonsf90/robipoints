@@ -43,6 +43,6 @@ class RobiPoints {
     else
       rPoints = 0.0;
 
-    return rPoints.roundToDouble();
+    return double.parse(rPoints.toStringAsFixed(2));
   }
 }
