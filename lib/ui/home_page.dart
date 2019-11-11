@@ -4,13 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:robi_points_weightlifting/enums/genre.dart';
 import 'package:robi_points_weightlifting/helpers/robi_points.dart';
 
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
   GenreCharacter _genreCharacter = GenreCharacter.male;
+
+  //Validação de Form
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   List<DropdownMenuItem<int>> listDrop = [
     (DropdownMenuItem(
@@ -173,6 +178,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -192,107 +198,116 @@ class _HomePageState extends State<HomePage> {
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 0.0),
-          child: Container(
-            child: Center(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text(
-                  "Genre",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.amber,
-                    fontSize: 28.0,
-                  ),
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+          child: Form(
+            key: _formKey,
+            child: Container(
+              child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Radio(
-                        value: GenreCharacter.male,
-                        groupValue: _genreCharacter,
-                        //activeColor: Colors.white,
-                        onChanged: (GenreCharacter value) {
-                          loadDataListMen();
-                          setState(() {
-                            _genreCharacter = value;
-                          });
-                        },
-                      ),
                       Text(
-                        "Male",
-                        style: TextStyle( fontSize: 24.0),
+                        "Genre",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.amber,
+                          fontSize: 28.0,
+                        ),
                       ),
-                      Radio(
-                        value: GenreCharacter.female,
-                        groupValue: _genreCharacter,
-                        //activeColor: Colors.white,
-                        onChanged: (GenreCharacter value) {
-                          //_resetFields();
-                          loadDataListWomen();
-                          setState(() {
-                            _genreCharacter = value;
-                          });
-                        },
-                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Radio(
+                              value: GenreCharacter.male,
+                              groupValue: _genreCharacter,
+                              //activeColor: Colors.white,
+                              onChanged: (GenreCharacter value) {
+                                loadDataListMen();
+                                setState(() {
+                                  _genreCharacter = value;
+                                });
+                              },
+                            ),
+                            Text(
+                              "Male",
+                              style: TextStyle( fontSize: 24.0),
+                            ),
+                            Radio(
+                              value: GenreCharacter.female,
+                              groupValue: _genreCharacter,
+                              //activeColor: Colors.white,
+                              onChanged: (GenreCharacter value) {
+                                //_resetFields();
+                                loadDataListWomen();
+                                setState(() {
+                                  _genreCharacter = value;
+                                });
+                              },
+                            ),
+                            Text(
+                              "Female",
+                              style: TextStyle(fontSize: 24.0),
+                            ),
+                          ]),
                       Text(
-                        "Female",
+                        "Weight Category",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.amber,
+                          fontSize: 28.0,
+                        ),
+                      ),
+                      DropdownButton(
+                        value: weightCategorySelected,
+                        isExpanded: true,
+                        iconSize: 40.0,
                         style: TextStyle(fontSize: 24.0),
+                        items: listDrop,
+                        hint: Text("Select Category"),
+                        onChanged: (value) {
+                          weightCategorySelected = value;
+                          setState(() {});
+                        },
                       ),
-                    ]),
-                Text(
-                  "Weight Category",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.amber,
-                    fontSize: 28.0,
-                  ),
-                ),
-                 DropdownButton(
-                  value: weightCategorySelected,
-                  isExpanded: true,
-                  iconSize: 40.0,
-                  style: TextStyle(fontSize: 24.0),
-                  items: listDrop,
-                  hint: Text("Select Category"),
-                  onChanged: (value) {
-                    weightCategorySelected = value;
-                    setState(() {});
-                  },
-                ),
-                TextField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      labelText: "Peso (Kg)",
-                      labelStyle: TextStyle(color: Colors.amber)),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 24.0),
-                  controller: weightController,
-                ),
-                RaisedButton(
-                  child: Text(
-                    "Calcular",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24.0,
-                    ),
-                  ),
-                  color: Colors.amber,
-                  onPressed: () {
-                    _calculate();
-                  },
-                ),
-                Text(
-                  _infoText,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.amber,
-                    fontSize: 24.0,
-                  ),
-                ),
-              ],
-            )),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            labelText: "Weight Lifited (Kg)",
+                            labelStyle: TextStyle(color: Colors.amber)),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 24.0),
+                        controller: weightController,
+                        validator: (value) {
+                          if (value.isEmpty)
+                            return "Insert Weight!";
+                        },
+                      ),
+                      RaisedButton(
+                        child: Text(
+                          "Calculate",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24.0,
+                          ),
+                        ),
+                        color: Colors.amber,
+                        onPressed: () {
+                          if (_formKey.currentState.validate())
+                            _calculate();
+                        },
+                      ),
+                      Text(
+                        _infoText,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.amber,
+                          fontSize: 24.0,
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
           ),
-        ));
+        ),
+    );
   }
 }
